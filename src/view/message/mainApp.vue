@@ -57,7 +57,7 @@
         </div>
       </el-col>
       <!--添加记事本区域的内容-->
-      <el-col :span="12">
+      <el-col :span="12" class="AddNotepad">
         <div style="height: 287px;background-color: rgb(255,255,255);">
           <div style="line-height: 50px;text-align: center;border-bottom: 1px solid #E1E1E1;">
 
@@ -145,7 +145,6 @@
 
   </div>
 </template>
-
 <script>
 import api from "../../api";
 export default {
@@ -325,7 +324,6 @@ export default {
         date.now = false;
         date.hongdian = false;
         this.datas.push(date);
-        // this.dateData.firstline.push(date);
       }
       //temp存放换行前上一个数据
       //下一行第一个数字
@@ -392,18 +390,19 @@ export default {
       this.inputTitle = "";
 
       //先获取日期 然后转一手 之后 赋值给Memo_b
-      var firstday;
-      var Memo_c;
-      var today = this.valueDate;
-      var yy = today.getFullYear();
-      this.currentYear = yy;
-      var mm = today.getMonth() + 1; //today=2;mm=3
-      this.currentMonth = mm - 1; //this.curr=2
-      var dd = today.getDate();
-      this.currentDay = dd; //30
-      firstday = yy + "-" + mm + "-" + dd; //2018-3-1
-      this.Memo_b.push(firstday);
-      console.log(this.Memo_b);
+      if (this.valueDate) {
+        var firstday;
+        var Memo_c;
+        var today = this.valueDate;
+        var yy = today.getFullYear();
+        this.currentYear = yy;
+        var mm = today.getMonth() + 1; //today=2;mm=3
+        this.currentMonth = mm - 1; //this.curr=2
+        var dd = today.getDate();
+        this.currentDay = dd; //30
+        firstday = yy + "-" + mm + "-" + dd; //2018-3-1
+        this.Memo_b.push(firstday);
+      }
     }, //控制点击确定之后状态
     headlineLiC(index) {
       console.log(index);
@@ -464,18 +463,7 @@ export default {
 };
 </script>
 
-<style>
-#mainApp .flipVerticalA {
-  width: 30px;
-  height: 12px;
-  position: absolute;
-  bottom: 292px;
-  left: 50%;
-  margin-left: -15px;
-  text-align: center;
-  cursor: pointer;
-}
-
+<style scoped>
 #calender {
   overflow: auto;
   width: 90%;
@@ -583,7 +571,7 @@ export default {
   font-size: 10px;
 }
 
-#mainApp .headline {
+#mainApp .AddNotepad .headline {
   width: 80%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -592,40 +580,22 @@ export default {
   -webkit-box-orient: vertical;
 }
 
-#mainApp .headlineLi:hover {
+#mainApp .AddNotepad .headlineLi:hover {
   background: #f3fbff;
 }
 
-#mainApp .el-dialog__header {
+#mainApp .AddNotepad .el-dialog__header {
   background-color: #8a3284 !important;
   padding: 0 !important;
 }
 
-#mainApp .el-input {
+#mainApp .AddNotepad .el-input {
   position: relative;
   font-size: 14px;
   display: inline-block;
   width: 86%;
   background: #fff;
   text-align: left;
-}
-
-#mainApp .el-input__inner {
-  -webkit-appearance: none;
-  background-image: none;
-  border-radius: 0px;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #cccccc;
-  display: inline-block;
-  font-size: inherit;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 15px;
-  width: 200px !important;
-  background: white;
-  border: 1px solid;
-  margin: 5px;
 }
 
 #mainApp .valueDate .el-input {
@@ -661,40 +631,19 @@ export default {
   width: 20px;
   left: 154px;
 }
-
-@media screen and (min-width: 1350px) and (max-width: 1540px) {
-  #mainApp .valueDate .el-input__inner {
-    margin: 6px;
-  }
-
-  #mainApp .valueDate .el-input__icon {
-    margin-left: 7px;
-  }
-}
-
-@media screen and (min-width: 1540px) and (max-width: 1920px) {
-  #mainApp .valueDate .el-input__inner {
-    margin: 4px;
-  }
-
-  #mainApp .valueDate .el-input__icon {
-    margin-left: 8px;
-  }
-}
-
-.box {
-  width: 800px;
-  height: 200px;
+#mainApp .box {
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
 }
 
-.tabs li {
+#mainApp .tabs li {
   float: left;
   margin-right: 8px;
   list-style: none;
 }
 
-.tabs .tab-link {
+#mainApp .tabs .tab-link {
   display: block;
   width: 90px;
   height: 49px;
@@ -710,15 +659,15 @@ export default {
   color: blue;
 }
 
-.cards {
+#mainApp .cards {
   float: left;
 }
 
-.cards .tab-card {
+#mainApp .cards .tab-card {
   display: none;
 }
 
-.clearfix:after {
+#mainApp .clearfix:after {
   content: "";
   display: block;
   height: 0;
@@ -729,19 +678,19 @@ export default {
   zoom: 1;
 }
 
-.Agencytask {
+#mainApp .Agencytask {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.Agencytaskmore {
+#mainApp .Agencytaskmore {
   position: absolute;
   top: 6px;
   right: 10px;
 }
 
-.Agencytaskshu {
+#mainApp .Agencytaskshu {
   padding: 2px;
   background-color: red;
   position: absolute;

@@ -1,16 +1,16 @@
 <template>
   <div id="asideList" style="width:100%;height:100%;user-select:none;">
     <el-row style="width:100%;display: -webkit-box;display: flex;margin-top:50px;">
-
       <!--侧边栏-->
-      <el-col :span="2" style="height:100%;position: fixed;z-index: 100;-box-flex:-webkit 1;flex:1;" :style="defaultActives == 1?'margin-top:0px':'margin-top:180px' ">
+      <el-col :span="2" style="height:100%;position: fixed;z-index: 100;-box-flex:-webkit 1;flex:1;" class="aside">
         <!--搜索框和收藏-->
         <div style="height: 100%;" v-show="val">
           <el-menu :router="true" :default-active="defaultActive+''" :unique-opened="true" style="height:100%;" :style="{width:ths+'px'}"
             class="zyside">
             <!--第一层-->
+            
             <el-submenu v-for="(item,index) in this.ArrayData" :index="item.id +''" :unique-opened="true" :key="index">
-              <template slot="title"><i :class=[item.icon]></i>{{item.name}}</template>
+              <template slot="title"><i :class=[item.icon]></i>{{item.name}}111</template>
               <!--第二层-->
               <el-submenu v-for="(itema,index) in item.children" :index="itema.id +''" v-if="itema.children != undefined"
                 :key="index">
@@ -26,43 +26,47 @@
             </el-submenu>
           </el-menu>
         </div>
+        <div v-show="!val" style="width:50px;height:100%;background:#3c404c;">
+          <ul>
+            <li v-for="(icons,index) in icon" :key="index">{{icons.name}}</li>
+          </ul>
+        </div>
 
       </el-col>
 
       <!--页面的内容-->
       <el-col :span="22" style="-webkit-box-flex: 1;width:87%;height:100%;flex:1;position: relative;background: #f1f2f6"
-        :style="{ marginLeft:this.val?ths+'px':'0px'}" :class="{ ml:vl }">
+        :style="{ marginLeft:this.val?ths+'px':'50px'}">
 
         <div style="width: 2px;height: 100%;background:rgba(0,0,0,.1);position: absolute;" id="DetectionHeight"></div>
 
-        <div style="cursor: pointer;z-index:999" @click="hideV" :class="{hv:hl,hh:!hl}" :style="{left:ths-15+'px'}"
-          v-if="val">
+        <div style="cursor: pointer;z-index:999" @click="hideV" :class="{hv:hl,hh:!hl}" :style="{left:ths-2+'px'}" v-if="val">
           <img :src="shouqizuocedaohang" alt="">
-        </div>
+        </div> 
 
-        <div style="z-index: 999;cursor: pointer" @click="hideV" :class="{hv:hl,hh:!hl}" :style="{ left:this.val?ths+'px':'0px'}"
+         <div style="z-index: 999;cursor: pointer" @click="hideV" :class="{hv:hl,hh:!hl}" :style="{ left:this.val?ths+'px':'49px'}"
           v-else>
           <img :src="shouqizuocedaohang" alt="">
-        </div>
+        </div> 
+
         <!--整体导航-->
-        <div style="margin: 16px;">
+        <div style="margin: 16px;" class="OverallNavigation">
           <!--图标-->
 
-          <span class="el-dropdown-link" style="float: left;padding:3px 16px;height: 26px;display: inline-block;background: #3C404C;border-radius: 4px 4px 0 0;"
+          <!-- <span class="el-dropdown-link" style="float: left;padding:3px 16px;height: 26px;display: inline-block;background: #3C404C;border-radius: 4px 4px 0 0;"
             @click="buttonMainD">
             <img :src="fanhuishouye" alt="" style="width: 20px;height: 20px">
-          </span>
+          </span> -->
 
           <!--触发器-->
           <el-tabs id="editableTabs" v-model="editableTabsValue2" type="card" @tab-click="tabsn" closable @tab-remove="removeTab"
-            style="z-index: 999;margin-left: 52px;height: 32px;background: #ffffff;">
+            style="z-index: 999;height: 32px;background: #ffffff;" v-show="Deletenavigationbar">
             <el-tab-pane v-for="option in $store.state.editableTabs2" :label="option.title" :name="option.content" :key="option.name"></el-tab-pane>
           </el-tabs>
         </div>
         <router-view style="margin: 16px;"></router-view>
       </el-col>
     </el-row>
-
   </div>
 </template>
 
@@ -78,7 +82,6 @@ export default {
       pageShow: false,
       fullscreen: false,
       defaultActive: "",
-      defaultActives: 1,
       hackReset: true,
       abc: null,
       ArrayData: null,
@@ -94,7 +97,9 @@ export default {
       indexCode: 0,
       ths: "198",
       fanhuishouye: require("../assets/images/icon-fanhuishouye.png"), //小房子 icon-shouqizuocedaohang
-      shouqizuocedaohang: require("../assets/images/icon-shouqizuocedaohang.png") // icon-sousuo.png
+      shouqizuocedaohang: require("../assets/images/icon-shouqizuocedaohang.png"), // icon-sousuo.png
+      icon: [{ name: 1 }, { name: 1 }, { name: 1 }, { name: 1 }, { name: 1 }],
+      Deletenavigationbar: false
     };
   },
   computed: {
@@ -124,6 +129,38 @@ export default {
       });
     },
     aside(event) {
+      this.ArrayData = [
+        {
+          name: "今天1",
+          id: 1,
+          url: "demo",
+          children: [
+            {
+              name: "今天1",
+              id: 4,
+              url: "demo"
+            }
+          ]
+        },
+        {
+          name: "今天2",
+          id: 2,
+          url: "demo1",
+          children: [
+            {
+              name: "今天2-1",
+              id: 5,
+              url: "demo1"
+            }
+          ]
+        },
+        {
+          name: "今天3",
+          id: 3,
+          url: "demo2"
+        }
+      ];
+
       this.$http
         .get(api.pdng())
         .then(res => {
@@ -159,24 +196,24 @@ export default {
               url: "demo2"
             }
           ];
-          let serchData = res.data.data;
-          serchData.forEach(seriesA => {
-            if (seriesA.children) {
-              seriesA.children.forEach(seriesB => {
-                if (seriesB.children) {
-                  seriesB.children.forEach(seriesC => {
-                    this.serchDatalist.push({
-                      value: seriesC.name,
-                      url: seriesC.url,
-                      index: seriesC.id
-                    });
-                  });
-                }
-              });
-            }
-            // 刷新之后跳转主页
-            // this.$router.push(name="mainApp")
-          });
+          // let serchData = res.data.data;
+          // serchData.forEach(seriesA => {
+          //   if (seriesA.children) {
+          //     seriesA.children.forEach(seriesB => {
+          //       if (seriesB.children) {
+          //         seriesB.children.forEach(seriesC => {
+          //           this.serchDatalist.push({
+          //             value: seriesC.name,
+          //             url: seriesC.url,
+          //             index: seriesC.id
+          //           });
+          //         });
+          //       }
+          //     });
+          //   }
+          //   // 刷新之后跳转主页
+          //   // this.$router.push(name="mainApp")
+          // });
           this.restaurants = this.loadAll();
         })
         .catch(() => {});
@@ -193,10 +230,8 @@ export default {
     hideV() {
       if (this.vl) {
         this.saveData(false);
-        this.defaultActives = 0;
       } else {
         this.saveData(true);
-        this.defaultActives = 1;
       }
       this.vl = !this.vl;
       this.hl = !this.hl;
@@ -218,12 +253,11 @@ export default {
           this.editableTabsValue2 = newTabName;
 
           this.$store.commit("SAVE_EDITABLETABS2", this.editableTabs2);
-          console.log(this.$store.state.editableTabs2);
+          this.Deletenavigationbar = true;
         }
       }
     }, //点击侧边栏 添加在导航栏上
     removeTab(targetName) {
-      // console.log(this.$store.state.editableTabs2);
       let tabs = this.$store.state.editableTabs2;
       let activeName = this.editableTabsValue2;
       if (activeName === targetName) {
@@ -238,6 +272,7 @@ export default {
       }
       this.editableTabsValue2 = activeName;
       if (this.$store.state.editableTabs2.length == 1) {
+        this.Deletenavigationbar = false;
         this.editableTabs2 = tabs.filter(tab => tab.content !== targetName);
         this.tabName = [];
         this.$store.commit("SAVE_EDITABLETABS2", this.editableTabs2);
@@ -261,18 +296,14 @@ export default {
 };
 </script>
 <style>
-#asideList .ml {
-  margin-left: 198px;
-}
-
 #asideList .hv {
   position: fixed;
-  top: 400px;
+  top: 66px;
 }
 
 #asideList .hh {
   position: fixed;
-  top: 400px;
+  top: 66px;
 }
 
 #asideList .el-submenu .el-menu-item {
@@ -281,7 +312,7 @@ export default {
   font-size: 14px;
 }
 
-#asideList .el-submenu__title {
+#asideList .aside .el-submenu__title {
   font-size: 16px;
   color: #cccccc !important;
   padding: 0 11px;
@@ -294,12 +325,12 @@ export default {
   padding-left: 20px;
 }
 
-#asideList .el-submenu__title:hover {
+#asideList .aside .el-submenu__title:hover {
   background-color: #295a94 !important;
 }
 
-#asideList .el-menu-item:focus,
-.el-menu-item:hover {
+#asideList .aside .el-menu-item:focus,
+#asideList .aside .el-menu-item:hover {
   background-color: #295a94 !important;
 }
 
@@ -316,47 +347,11 @@ export default {
   background: #3c404c;
 }
 
-#asideList .el-submenu [class^="el-icon-"] {
-  vertical-align: middle;
-  margin-right: 5px;
-  width: 24px;
-  text-align: center;
-  font-size: 17px;
+#asideList .el-icon-close:before {
+  display: block !important;
 }
 
-#asideList .el-submenu__icon-arrow {
-  position: absolute;
-  top: 53%;
-  right: 20px;
-  margin-top: -7px;
-  -webkit-transition: -webkit-transform 0.3s;
-  transition: -webkit-transform 0.3s;
-  transition: transform 0.3s;
-  transition: transform 0.3s, -webkit-transform 0.3s;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-#asideList .el-input__inner {
-  -webkit-appearance: none;
-  background-color: #333744;
-  background-image: none;
-  border-radius: 0px;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #cccccc;
-  display: inline-block;
-  font-size: inherit;
-  height: 30px;
-  line-height: 30px;
-  outline: none;
-  border: none;
-  padding: 0 29px;
-  width: 150px !important;
-  margin-left: 15px;
-}
-
-#asideList .el-input {
+#asideList .OverallNavigation .el-input {
   position: relative;
   font-size: 14px;
   display: inline-block;
@@ -364,88 +359,13 @@ export default {
   background: #3c404c;
 }
 
-#asideList .el-col-18 {
-  width: 69%;
-}
-
-.my-autocomplete li {
-  line-height: normal;
-  padding: 7px;
-}
-
-#asideList .el-tabs__header {
-  padding: 0;
-  position: relative;
-  margin: 5px !important;
-}
-
-#asideList .el-icon-close:before {
-  display: block !important;
-}
-
-#asideList .buttonMain {
-  margin: 0 2px 0 10px;
-  line-height: 32px;
-  height: 32px;
-  text-align: center;
-  border-bottom: 0;
-  border-radius: 2px;
-  float: left;
-  width: 80px;
-  border: 1px solid #e4e7ed;
-}
-
-#asideList .CollectionName {
-  width: 18px !important;
-  height: 18px;
-  display: inline-block;
-  position: absolute;
-  top: 17px;
-  cursor: pointer;
-}
-
-#asideList .CollectionName img {
-  width: 18px !important;
-  height: 18px;
-}
-
-#asideList .sousuoguanbi img {
-  width: 14px !important;
-}
-
-#asideList .CollectionNames {
-  width: 140px;
-  background: white;
-  position: absolute;
-  left: -120px;
-  top: 20px;
-  z-index: 1;
-  background-color: black;
-  color: white;
-  border: 1px solid white;
-}
-
-#asideList .el-badge__content.is-fixed {
-  position: absolute;
-  top: 12px;
-  right: 18px;
-}
-
-#asideList .el-input__icon {
-  margin-left: 12px;
-}
-
-#asideList .el-tabs--card > .el-tabs__header {
-  border: 0;
-}
-
-#asideList .el-tabs__item {
+#asideList .OverallNavigation .el-tabs__item {
   height: 32px;
   line-height: 32px;
 }
 
 #asideList .el-tabs__nav-wrap {
-  margin-left: -5px;
+  margin-left: 1px;
 }
 
 #asideList .el-tabs__item.is-active {
@@ -453,32 +373,12 @@ export default {
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1360px) {
-  #asideList .CollectionName {
-    right: -77px;
-  }
-
   #asideList #editableTabs {
     width: 96%;
   }
 }
 
-@media screen and (min-width: 1360px) and (max-width: 1540px) {
-  #asideList .CollectionName {
-    right: -78px;
-  }
-}
-
-@media screen and (min-width: 1540px) and (max-width: 1740px) {
-  #asideList .CollectionName {
-    right: -55px;
-  }
-}
-
 @media screen and (min-width: 1740px) and (max-width: 1920px) {
-  #asideList .CollectionName {
-    right: -35px;
-  }
-
   #asideList #editableTabs {
     width: 96%;
   }
